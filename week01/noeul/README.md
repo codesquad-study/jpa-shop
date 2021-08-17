@@ -80,7 +80,8 @@ public class Address {
 
 ## 컬렉션은 필드에서 초기화 하자
 
-
+- 기억이 안남.
+- 2회독하고, 기본편을 보면 알 수 있다.
 
 ## 테이블, 컬럼명 생성 전략
 
@@ -90,6 +91,8 @@ public class Address {
 2. 물리명 적용
    1. 모든 논리명에 적용됨, 실제 테이블에 적용
    2. `spring.jpa.hibernate.naming.physical-strategy`
+      - 예시 찾아보기 .
+        - xTeam
 
 ## Cascade
 
@@ -237,3 +240,27 @@ TransactionContext: Rolled back transaction for test
 ## 운영코드와 테스트 코드의 application.properites 분리 가능
 
 - application에 별도의 설정이 없으면, 스프링 부트가 `H2 메모리 모드`와 `create-drop`으로 동작함.
+
+
+
+---
+
+## 스터디에서 나온 내용 중 기억 남는 것
+
+
+
+CQRS(Command and Query Responsiblity Segregation)
+
+- 명령: 상태변경 작업
+- 조회: 상태 반환 작업
+
+cascade와 연관관계메서드랑 무슨차이?
+
+- cascade 옵션이 활성화 돼있더라도, 자식쪽만 업데이트를 하면 주인쪽에는 반영이 안됨.
+- 그래서 무조건 주인쪽을 업데이트 해줘야되는 상황인데, 주인쪽을 업데이트 했는데 자식쪽 업데이트를 하지 않으면 위에서 하고 밑에서 활용하는 상황이 있을 때 영속화된대서 꺼내오지 않으면 업데이트 되지 않은 값이 나올 수 있어서 양쪽을 업데이트 해주는 개념인 것 같아요.
+- 아까 cascade 옵션은 객체 하나에 대한 이야기, 연관관계 메서드는 객체와 객체간의 서로 업데이트 시켜주는 것?
+  - 애매한게, cascade도 1대다로 맵핑된 두 객체사이에 해주는 것인데,
+    - 연관 관계 메서드 o, casecade x : 자손 업데이트 x
+    - 연관 관계 메서드 x, cascade o 
+- cascade: persist를 해야되냐 안해야되냐 내려주는 옵션
+- 연관관계 메서드:  객체의 참조 값으로 두가지를 업데이트 해주는 것.
