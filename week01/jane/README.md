@@ -2,7 +2,7 @@
 
 CQRS란 Command and Query Responsibility Segregation의 약자로 command와 query를 분리하는 패턴이다.
 명령은 상태 변경의 작업을 하고, 조회는 상태 반환의 작업을 한다. 
-이런 관점에서 보면 생성 등 command를 실행하는 메서드는 void 타입을 린턴하게 하여 상태 변경에 대한 책임만 가지도록 관리하는 것이 좋다. 
+이런 관점에서 보면 생성 등 command를 실행하는 메서드는 void 타입을 리턴하게 하여 상태 변경에 대한 책임만 가지도록 관리하는 것이 좋다. 
 차선: id만 리턴하도록 설계
 
 - https://docs.microsoft.com/ko-kr/azure/architecture/patterns/cqrs
