@@ -10,10 +10,15 @@
 
 ### 트랜잭션 스크립트 패턴
 
+- 도메인 객체가 데이터(+getter, setter)만 가지고 있고, 행위를 별도의 객체로 분리하는 패턴
+
 - 서비스 계층이 대부분의 비즈니스 로직을 처리
 - 엔티티에는 비즈니스 로직이 거의 없음
+- 서비스 메서드가 비대해지며 테스트하기 어려워진다.
 
 - https://martinfowler.com/eaaCatalog/transactionScript.html
+
+
 
 참고: https://javacan.tistory.com/entry/94
 
@@ -45,8 +50,19 @@
 
 ### cascade
 
-- 라이프 사이클이 동일하고 다른 엔티티가 참조하지 않을 때 쓰는 것이 좋다. 
+- 라이프 사이클이 동일하고, 다른 엔티티가 참조하지 않을 때 쓰는 것이 좋다. 
 - 여러 엔티티가 참조하는 경우에는 별도의 repository를 생성하는 것이 좋다.
+
+- type
+  - all: 상위 엔티티에서 하위 엔티티로 모든 작업을 전파
+  - persist: 하위 엔티티까지 영속성 전달
+  - merge: 하위 엔티티까지 병합 작업을 지속
+  - remove: 상위 엔티티를 제거하면 연결된 하위 엔티티까지 제거
+  - lock: 상위 엔티티와 하위 엔티티를 영속성 컨텍스트에 다시 관리하게 함
+  - detach: 영속성 컨텍스트에서 연결된 하위 엔티티의 영속성까지 제거
+  - refresh: 데이터베이스로부터 인스턴스의 값을 다시 읽어옴
+
+https://www.baeldung.com/jpa-cascade-types
 
 
 
@@ -73,11 +89,9 @@
 
 
 
-
-
 ### 준영속 엔티티
 
-- 영속성 컨텍스트가 더는 관리하지 않는 엔티티
+- JPA가 인식할 수 있는 id를 가지고 있지만  영속성 컨텍스트가 더는 관리하지 않는 엔티티 (엔티티가 영속성 컨텍스트에서 분리된 상태)
 
 ```java
  Book book = new Book();
@@ -88,6 +102,12 @@
  book.setAuthor(form.getAuthor());
  book.setIsbn(form.getIsbn());
 ```
+
+- em.detach(entity): 특정 엔티티를 준영속 엔티티로 전환 
+- em.clear(): 영속성 컨텍스트 초기화
+- em.close(): 영속성 컨텍스트 종료
+
+출처: https://ppomelo.tistory.com/147 [ppomelo 🍐]
 
 
 
@@ -128,6 +148,12 @@ void update(Item itemParam) { //itemParam: 준영속 엔티티
     findItem.setPrice(itemParam.getPrice()); 
 }
 ```
+
+
+
+![2016-07-11_13-38-11](https://www.baeldung.com/wp-content/uploads/2016/07/2016-07-11_13-38-11-1024x551.png)
+
+출처: https://www.baeldung.com/hibernate-save-persist-update-merge-saveorupdate
 
 
 
